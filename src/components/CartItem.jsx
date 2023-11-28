@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useShoppingCart } from "../context/CartContext";
-import { Stack } from "react-bootstrap";
+import { Stack, Button } from "react-bootstrap";
 import { formatCurrency } from "../utilities/formatCurrency";
 
 export const CartItem = ({ item, quantity, price }) => {
@@ -39,6 +39,14 @@ export const CartItem = ({ item, quantity, price }) => {
 					{formatCurrency(productData.price)}
 				</div>
 			</div>
+			<div>{formatCurrency(productData.price * quantity)}</div>
+			<Button
+				variant="outline-danger"
+				size="sm"
+				onClick={() => removeFromCart(productData.id)}
+			>
+				&times;
+			</Button>
 		</Stack>
 	);
 };
