@@ -3,32 +3,30 @@ import React, { useEffect, useState } from "react";
 import { useShoppingCart } from "../context/CartContext";
 import { Stack } from "react-bootstrap";
 
-export const CartItem = ({ item, quantity }) => {
-	const [productData, setProductData] = useState([]);
-	const { removeFromCart, cartQuantity } = useShoppingCart();
+export const CartItem = ({ item, quantity, price }) => {
+	const [productData, setProductData] = useState(null);
+	const { removeFromCart } = useShoppingCart();
 
 	useEffect(() => {
 		fetch(`https://dummyjson.com/products/${item.id}`)
 			.then((res) => res.json())
 			.then((json) => {
-				setProductData((prevData) => [
-					...prevData,
-					{ ...json, id: item.id, quantity },
-				]);
+				setProductData({ ...json, id: item.id });
 			});
-	}, [cartQuantity, setProductData, item.id, quantity]);
+	}, [item.id]);
 
-	const product = productData.find((p) => p.id === item.id);
-	if (!product) {
+	if (!productData) {
 		return null;
 	}
 
 	return (
 		<Stack direction="horizontal" gap={2}>
 			<img
-				src={product.thumbnail}
-				alt={`Product thumbnail for ${product.title}`}
+				src={productData.thumbnail}
+				alt={`Product thumbnail for ${productData.title}`}
+				style={{ width: "125px", height: "75px", objectFit: "cover" }}
 			/>
+			{productData.price}
 		</Stack>
 	);
 };
