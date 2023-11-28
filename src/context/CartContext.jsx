@@ -10,17 +10,19 @@ export const CartProvider = ({ children }) => {
 	const [cartItems, setCartItems] = useState([]);
 
 	const getItemQuantity = (id) => {
-		const foundItem = cartItems.find((item) => item.item.id === id);
+		const foundItem = cartItems.find(
+			(item) => item.item && item.item.id === id
+		);
 		return foundItem ? foundItem.quantity : 0;
 	};
 
 	const increaseCartQuantity = (id) => {
 		setCartItems((currItems) => {
-			if (currItems.find((item) => item.id === id) == null) {
-				return [...currItems, { id, quantity: 1 }];
+			if (currItems.find((item) => item.item.id === id) == null) {
+				return [...currItems, { item: { id }, quantity: 1 }];
 			} else {
 				return currItems.map((item) => {
-					if (item.id === id) {
+					if (item.item.id === id) {
 						return { ...item, quantity: item.quantity + 1 };
 					} else {
 						return item;
@@ -32,11 +34,12 @@ export const CartProvider = ({ children }) => {
 
 	const decreaseCartQuantity = (id) => {
 		setCartItems((currItems) => {
-			if (currItems.find((item) => item.id === id)?.quantity === 1) {
-				return currItems.filter((item) => item.id !== id);
+			const foundItem = currItems.find((item) => item.item.id === id);
+			if (foundItem && foundItem.quantity === 1) {
+				return currItems.filter((item) => item.item.id !== id);
 			} else {
 				return currItems.map((item) => {
-					if (item.id === id) {
+					if (item.item.id === id) {
 						return { ...item, quantity: item.quantity - 1 };
 					} else {
 						return item;
@@ -48,7 +51,7 @@ export const CartProvider = ({ children }) => {
 
 	const removeFromCart = (id) => {
 		setCartItems((currItems) => {
-			return currItems.filter((item) => item.id !== id);
+			return currItems.filter((item) => item.item.id !== id);
 		});
 	};
 
