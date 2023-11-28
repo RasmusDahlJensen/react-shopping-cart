@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import { ProductItem } from "../components/ProductItem";
 
 export const Store = () => {
 	const [productData, setProductData] = useState([]);
@@ -9,7 +10,7 @@ export const Store = () => {
 			.then((res) => res.json())
 			.then((json) => {
 				setProductData(json.products);
-				console.log(json);
+				console.log(json.thumbnail);
 			});
 	}, []);
 
@@ -22,7 +23,12 @@ export const Store = () => {
 					{productData.map((item) => {
 						return (
 							<Col key={item.id}>
-								<ProductItem {...item} />
+								<ProductItem
+									id={item.id}
+									title={item.title}
+									price={item.price}
+									thumbnail={item.thumbnail}
+								/>
 							</Col>
 						);
 					})}
