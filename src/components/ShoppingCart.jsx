@@ -1,4 +1,3 @@
-// ShoppingCart.jsx
 import { Offcanvas, Stack } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { useShoppingCart } from "../context/CartContext";

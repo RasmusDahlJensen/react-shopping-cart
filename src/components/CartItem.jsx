@@ -1,7 +1,7 @@
-// CartItem.jsx
 import React, { useEffect, useState } from "react";
 import { useShoppingCart } from "../context/CartContext";
 import { Stack } from "react-bootstrap";
+import { formatCurrency } from "../utilities/formatCurrency";
 
 export const CartItem = ({ item, quantity, price }) => {
 	const [productData, setProductData] = useState(null);
@@ -26,7 +26,19 @@ export const CartItem = ({ item, quantity, price }) => {
 				alt={`Product thumbnail for ${productData.title}`}
 				style={{ width: "125px", height: "75px", objectFit: "cover" }}
 			/>
-			{productData.price}
+			<div className="me-auto">
+				<div>
+					{productData.title}
+					{quantity > 1 && (
+						<span className="text-muted" style={{ fontSize: ".85rem" }}>
+							{quantity}x
+						</span>
+					)}
+				</div>
+				<div className="text-muted" style={{ fontSize: ".95rem" }}>
+					{formatCurrency(productData.price)}
+				</div>
+			</div>
 		</Stack>
 	);
 };
